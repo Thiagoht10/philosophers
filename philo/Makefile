@@ -6,7 +6,7 @@
 #    By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/23 17:27:45 by thde-sou          #+#    #+#              #
-#    Updated: 2025/09/23 18:25:44 by thde-sou         ###   ########.fr        #
+#    Updated: 2025/09/24 20:42:32 by thde-sou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ FLAGS = -Wall -Werror -Wextra
 
 NAME = philo
 
-SRC = main.c src/inits.c src/routine.c
+SRC = main.c src/inits.c src/routine.c src/utils.c src/utils_2.c
 
 OBJ = $(SRC:.c=.o)
 

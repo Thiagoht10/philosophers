@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:53:19 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/23 20:04:15 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/24 17:36:01 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int main(int argc, char **argv)
     if(!inits_philo(&app, &philos))
         return (-1);
     start_threads(philos);
-    printf("time_die: %ld\n", app.time_die);
-    printf("meals: %d\n", philos[1].meals);
+    wait_routine(philos);
     return (0);
 }

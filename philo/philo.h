@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:33:57 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/23 20:05:08 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/24 20:53:08 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@ typedef struct s_app
 {
     int num_philo;
     pthread_mutex_t *forks;
+    pthread_mutex_t m_print;
+    pthread_mutex_t m_meal;
     long    time_die;
     long    time_eat;
     long    time_sleep;
     long    time_start;
     int     num_meals;
+    int     stop;
 }           t_app;
 
 typedef struct s_philo
@@ -41,6 +44,7 @@ typedef struct s_philo
     int right;
     int left;
     pthread_t   thread;
+    pthread_t   thread_die;
     t_app   *app;
 }           t_philo;
 
@@ -51,5 +55,14 @@ void *routine(void *arg);
 void    start_threads(t_philo *philos);
 long    now_ms(void);
 int inits_fork(t_app *app);
+long    elapsed_since(long last_time);
+void    think(t_philo *philo);
+void    print_state(t_philo *philo, char *msg);
+void    wait_routine(t_philo *philo);
+void    eat(t_philo *philo);
+void    *die(void *arg);
+int    init_mutex(t_app *app);
+void    get_fork(t_philo *philo);
+void    drop_fork(t_philo *philo);
 
 #endif

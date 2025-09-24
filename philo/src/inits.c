@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:06:00 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/23 20:18:56 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/24 20:36:57 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int    inits_app(t_app *app, char **argv, int argc)
     app->time_eat = atoi(argv[3]);
     app->time_sleep = atoi(argv[4]);
     app->num_meals = -1;
+    app->stop = 0;
     if(argc == 6)
         app->num_meals = atoi(argv[5]);
     app->time_start = now_ms();
@@ -52,6 +53,8 @@ int    inits_app(t_app *app, char **argv, int argc)
         return (FALSE);
     }
     if(!inits_fork(app))
+        return (FALSE);
+    if(!init_mutex(app))
         return (FALSE);
     return (TRUE);
 }
