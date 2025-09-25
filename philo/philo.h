@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:33:57 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/24 20:53:08 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/25 05:46:31 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ void    *die(void *arg);
 int    init_mutex(t_app *app);
 void    get_fork(t_philo *philo);
 void    drop_fork(t_philo *philo);
-
+void    sleep_philo(t_philo *philo);
+void    distroy_mutex(t_app *app);
 #endif

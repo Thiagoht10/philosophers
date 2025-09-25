@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 05:30:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/24 20:54:09 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/25 05:45:57 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void    print_state(t_philo *philo, char *msg)
 {
     long time_now;
 
-    if(!philo->app->stop)
+    pthread_mutex_lock(&philo->app->m_print);
+    if (!philo->app->stop)
     {
-        pthread_mutex_lock(&philo->app->m_print);
         time_now = elapsed_since(philo->app->time_start);
         printf("[%ld] %d %s\n", time_now, philo->id, msg);
-        pthread_mutex_unlock(&philo->app->m_print);
     }
+    pthread_mutex_unlock(&philo->app->m_print);
 }
 
 void    wait_routine(t_philo *philo)
@@ -41,6 +41,7 @@ void    wait_routine(t_philo *philo)
     while(i < philo->app->num_philo)
     {
         pthread_join(philo[i].thread, NULL);
+        pthread_join(philo[i].thread_die, NULL);
         i++;
     }
 }
@@ -75,9 +76,13 @@ void    *die(void *arg)
         if(check_time >= p->app->time_die)
         {
             pthread_mutex_lock(&p->app->m_print);
-            time_now = elapsed_since(p->app->time_start);
-            printf("[%ld] %d %s\n", time_now, p->id, "died");
-            p->app->stop = 1;
+            if (!p->app->stop)
+            {
+                time_now = elapsed_since(p->app->time_start);
+                printf("[%ld] %d %s\n", time_now, p->id, "died");
+                p->app->stop = 1;
+            }
+            pthread_mutex_unlock(&p->app->m_print);
             break;
         }
     }
