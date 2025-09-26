@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 05:30:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/25 05:45:57 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/26 21:14:29 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,15 @@ int    init_mutex(t_app *app)
     }
     if(pthread_mutex_init(&app->m_meal, NULL) != 0)
     {
+        pthread_mutex_destroy(&app->m_print);
         pthread_mutex_destroy(&app->m_meal);
         return (FALSE);
+    }
+    if(pthread_mutex_init(&app->m_stop, NULL) != 0)
+    {
+        pthread_mutex_destroy(&app->m_print);
+        pthread_mutex_destroy(&app->m_meal);
+        pthread_mutex_destroy(&app->m_stop);
     }
     return (TRUE);
 }
@@ -75,16 +82,23 @@ void    *die(void *arg)
         pthread_mutex_unlock(&p->app->m_meal);
         if(check_time >= p->app->time_die)
         {
-            pthread_mutex_lock(&p->app->m_print);
-            if (!p->app->stop)
+            pthread_mutex_lock(&p->app->m_stop);
+            if(p->app->stop == 1)
             {
-                time_now = elapsed_since(p->app->time_start);
-                printf("[%ld] %d %s\n", time_now, p->id, "died");
-                p->app->stop = 1;
+                break;
             }
+            p->app->stop = 1;
+            pthread_mutex_lock(&p->app->m_print);
+            time_now = elapsed_since(p->app->time_start);
+            printf("[%ld] %d %s\n", time_now, p->id, "died");
             pthread_mutex_unlock(&p->app->m_print);
+            pthread_mutex_unlock(&p->app->m_stop);
+        }
+        if(p->app->stop || p->satisfied)
+        {
             break;
         }
     }
+    usleep(200);
     return (NULL);
 }

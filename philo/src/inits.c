@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:06:00 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/24 20:36:57 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/26 19:27:40 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,15 @@ int check_inputs(char **argv)
 int    inits_app(t_app *app, char **argv, int argc)
 {
     app->num_philo = atoi(argv[1]);
+    /* if(app->num_philo < 2)
+        return (FALSE); */
     app->time_die = atoi(argv[2]);
     app->time_eat = atoi(argv[3]);
     app->time_sleep = atoi(argv[4]);
     app->num_meals = -1;
+    app->next_id = -1;
     app->stop = 0;
+    app->started = 0;
     if(argc == 6)
         app->num_meals = atoi(argv[5]);
     app->time_start = now_ms();
@@ -76,8 +80,12 @@ int    inits_philo(t_app *app, t_philo **philos)
         (*philos)[i].app = app;
         (*philos)[i].last_meal = app->time_start;
         (*philos)[i].meals = 0;
+        (*philos)[i].satisfied = 0;
         (*philos)[i].left = i;
-        (*philos)[i].right = (i + 1) % app->num_philo;
+        if(app->num_philo >= 2)
+            (*philos)[i].right = (i + 1) % app->num_philo;
+        else
+            (*philos)[i].right = -1;
         i++;
     }
     return (TRUE);
