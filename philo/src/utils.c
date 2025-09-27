@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 05:30:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/26 21:14:29 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/27 21:51:24 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void    print_state(t_philo *philo, char *msg)
 {
     long time_now;
 
-    pthread_mutex_lock(&philo->app->m_print);
-    if (!philo->app->stop)
+    if (!check_stop(philo->app))
     {
+        pthread_mutex_lock(&philo->app->m_print);
         time_now = elapsed_since(philo->app->time_start);
         printf("[%ld] %d %s\n", time_now, philo->id, msg);
+        pthread_mutex_unlock(&philo->app->m_print);
     }
-    pthread_mutex_unlock(&philo->app->m_print);
 }
 
 void    wait_routine(t_philo *philo)
@@ -49,21 +49,24 @@ void    wait_routine(t_philo *philo)
 int    init_mutex(t_app *app)
 {
     if(pthread_mutex_init(&app->m_print, NULL) != 0)
-    {
-        pthread_mutex_destroy(&app->m_print);
         return (FALSE);
-    }
     if(pthread_mutex_init(&app->m_meal, NULL) != 0)
     {
         pthread_mutex_destroy(&app->m_print);
-        pthread_mutex_destroy(&app->m_meal);
         return (FALSE);
     }
     if(pthread_mutex_init(&app->m_stop, NULL) != 0)
     {
         pthread_mutex_destroy(&app->m_print);
         pthread_mutex_destroy(&app->m_meal);
+        return (FALSE);
+    }
+    if(pthread_mutex_init(&app->m_satisfied, NULL) != 0)
+    {
+        pthread_mutex_destroy(&app->m_print);
+        pthread_mutex_destroy(&app->m_meal);
         pthread_mutex_destroy(&app->m_stop);
+        return (FALSE);
     }
     return (TRUE);
 }
@@ -75,7 +78,7 @@ void    *die(void *arg)
     long    time_now;
     
     p = (t_philo *)arg;
-    while (1)
+    while (!check_stop(p->app))
     {
         pthread_mutex_lock(&p->app->m_meal);
         check_time = elapsed_since(p->last_meal);
@@ -94,7 +97,7 @@ void    *die(void *arg)
             pthread_mutex_unlock(&p->app->m_print);
             pthread_mutex_unlock(&p->app->m_stop);
         }
-        if(p->app->stop || p->satisfied)
+        if(check_stop(p->app) || check_satisfied(p))
         {
             break;
         }

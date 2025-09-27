@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:33:57 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/26 21:12:27 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/27 20:52:09 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,13 @@ typedef struct s_app
     pthread_mutex_t m_print;
     pthread_mutex_t m_meal;
     pthread_mutex_t m_stop;
+    pthread_mutex_t m_satisfied;
     long    time_die;
     long    time_eat;
     long    time_sleep;
     long    time_start;
     int     num_meals;
     int     stop;
-    int     next_id;
-    int     started;
 }           t_app;
 
 typedef struct s_philo
@@ -73,4 +72,7 @@ void    sleep_philo(t_philo *philo);
 void    distroy_mutex(t_app *app);
 int check_hungre(t_philo **philo);
 void precise_sleep(t_app *app, long ms);
+int     check_stop(t_app *app);
+int     check_satisfied(t_philo *ph);
+void    set_satisfied(t_philo *ph);
 #endif

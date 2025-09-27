@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:21:05 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/26 21:18:23 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/27 21:21:48 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void    *routine(void *arg)
     t_philo *p;
     
     p = (t_philo *)arg;
-    while (!p->app->stop && !p->satisfied)
+    while (!check_stop(p->app) && !check_satisfied(p))
     {
         think(p);
         eat(p);
@@ -44,7 +44,7 @@ void    think(t_philo *philo)
     long    time_left;
     long    time_think;
 
-    if(philo->app->stop)
+    if(check_stop(philo->app))
         return ;
     pthread_mutex_lock(&philo->app->m_meal);
     time_left = philo->app->time_die - elapsed_since(philo->last_meal);
@@ -61,25 +61,27 @@ void    think(t_philo *philo)
 
 void    eat(t_philo *philo)
 {
-    if(philo->app->stop)
+    long time_eat;
+
+    if(check_stop(philo->app))
         return ;
     if(philo->meals == 0 && philo->id % 2 == 0)
         usleep((philo->app->time_eat / 2) * 1000);
     get_fork(philo);
-    print_state(philo, "is eating");
     pthread_mutex_lock(&philo->app->m_meal);
     philo->last_meal = now_ms();
     philo->meals += 1;
+    time_eat = philo->app->time_eat;
     pthread_mutex_unlock(&philo->app->m_meal);
-    usleep(philo->app->time_eat * 1000L);
+    print_state(philo, "is eating");
+    usleep(time_eat * 1000L);
     drop_fork(philo);
-    if(philo->meals == philo->app->num_meals)
-        philo->satisfied = 1;
+    set_satisfied(philo);
 }
 
 void    sleep_philo(t_philo *philo)
 {
-    if(philo->app->stop)
+    if(check_stop(philo->app))
         return ;
     print_state(philo, "is_sleeping");
     precise_sleep(philo->app, philo->app->time_sleep);

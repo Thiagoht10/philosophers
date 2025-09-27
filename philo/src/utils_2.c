@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:41:54 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/26 19:51:40 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/27 21:41:53 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@ void    get_fork(t_philo *philo)
         if(philo->right != -1)
         {
             pthread_mutex_lock(&philo->app->forks[philo->right]);
-            print_state(philo, "has taken a fork");
+            print_state(philo, "has taken a fork - right");
         }
         else
             precise_sleep(philo->app, philo->app->time_die);
         pthread_mutex_lock(&philo->app->forks[philo->left]);
-        print_state(philo, "has taken a fork");
+        print_state(philo, "has taken a fork - left");
     }
     else
     {
         pthread_mutex_lock(&philo->app->forks[philo->left]);
-        print_state(philo, "has taken a fork");
+        print_state(philo, "has taken a fork - left");
         if(philo->right != -1)
         {
             pthread_mutex_lock(&philo->app->forks[philo->right]);
-            print_state(philo, "has taken a fork");
+            print_state(philo, "has taken a fork - right");
         }
         else
             precise_sleep(philo->app, philo->app->time_die);
@@ -64,6 +64,7 @@ void    distroy_mutex(t_app *app)
     pthread_mutex_destroy(&app->m_meal);
     pthread_mutex_destroy(&app->m_print);
     pthread_mutex_destroy(&app->m_stop);
+    pthread_mutex_destroy(&app->m_satisfied);
     while(i < app->num_philo)
     {
         pthread_mutex_destroy(&app->forks[i]);
@@ -72,30 +73,13 @@ void    distroy_mutex(t_app *app)
     free(app->forks);
 }
 
-int check_hungre(t_philo **philo)
-{
-    int i;
-
-    i = 0;
-    while(i < (*philo)[0].app->num_philo)
-    {
-        if((*philo)[i].satisfied != 1)
-            return (FALSE);
-        i++;
-    }
-    pthread_mutex_lock(&(*philo)->app->m_stop);
-    (*philo)[0].app->stop = 1;
-    pthread_mutex_unlock(&(*philo)->app->m_stop);
-    return (TRUE);
-}
-
 void precise_sleep(t_app *app, long ms)
 {
     long elapsed;
     long start;
     
     start = now_ms();
-    while (!app->stop)
+    while (!check_stop(app))
     {
         elapsed = now_ms() - start;
         if (elapsed >= ms)
