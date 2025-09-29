@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:06:00 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/27 20:53:26 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/27 22:18:45 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ int check_inputs(char **argv)
 int    inits_app(t_app *app, char **argv, int argc)
 {
     app->num_philo = atoi(argv[1]);
+    if(app->num_philo < 1)
+    {
+        printf("Error\nWrong number of philosophers\n");
+        return(FALSE);
+    }
     app->time_die = atoi(argv[2]);
     app->time_eat = atoi(argv[3]);
     app->time_sleep = atoi(argv[4]);

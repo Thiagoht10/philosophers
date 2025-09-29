@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:33:57 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/27 20:52:09 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/28 02:49:10 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void    get_fork(t_philo *philo);
 void    drop_fork(t_philo *philo);
 void    sleep_philo(t_philo *philo);
 void    distroy_mutex(t_app *app);
-int check_hungre(t_philo **philo);
 void precise_sleep(t_app *app, long ms);
 int     check_stop(t_app *app);
 int     check_satisfied(t_philo *ph);
 void    set_satisfied(t_philo *ph);
+long    calcule_think(t_philo *ph);
 #endif
