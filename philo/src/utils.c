@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 05:30:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/28 04:55:28 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/29 19:21:15 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,13 @@ void    print_state(t_philo *philo, char *msg)
 void    wait_routine(t_philo *philo)
 {
     int i;
-    int j;
 
     i = 0;
-    j = 0;
     while(i < philo->app->num_philo)
     {
+        pthread_join(philo[i].thread, NULL);
         pthread_join(philo[i].thread_die, NULL);
         i++;
-    }
-    if(philo->app->stop)
-    {
-        while(j < philo->app->num_philo)
-        {
-            pthread_detach(philo[j].thread);
-            j++;
-        }
-    }
-    else
-    {
-        while(j < philo->app->num_philo)
-        {
-            pthread_join(philo[j].thread, NULL);
-            j++;
-        }
     }
 }
 
