@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:06:58 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/01 15:59:32 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/01 19:03:07 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void    *die(void *arg)
     while (!check_stop(ph->app))
     {
         i = 0;
-        usleep(500);
         if(all_satisfied(ph, ph->app))
         {
             break;
@@ -86,6 +85,7 @@ void    *die(void *arg)
             }
             i++;
         }
+        usleep(2000);
     }
     usleep(200);
     return (NULL);

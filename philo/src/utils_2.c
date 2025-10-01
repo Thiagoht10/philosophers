@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:41:54 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/30 21:30:06 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/01 19:27:41 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void    get_fork(t_philo *philo)
             print_state(philo, "has taken a fork");
         }
         else
-            precise_sleep(philo->app, philo->app->time_die);
+            precise_sleep(philo->app, philo->app->time_die * 2);
         pthread_mutex_lock(&philo->app->forks[philo->left]);
         print_state(philo, "has taken a fork");
     }
@@ -36,7 +36,7 @@ void    get_fork(t_philo *philo)
             print_state(philo, "has taken a fork");
         }
         else
-            precise_sleep(philo->app, philo->app->time_die);
+            precise_sleep(philo->app, philo->app->time_die * 2);
     }
 }
 

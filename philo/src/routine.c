@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:21:05 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/01 15:56:29 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/01 19:45:29 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,14 @@ void    eat(t_philo *philo)
         usleep((philo->app->time_eat * 1000) / 2);
     get_fork(philo);
     pthread_mutex_lock(&philo->app->m_meal);
-    philo->last_meal = now_ms();
+    if(philo->right != -1)
+        philo->last_meal = now_ms();
     pthread_mutex_unlock(&philo->app->m_meal);
-    print_state(philo, "is eating");
-    philo->meals += 1;
+    if(philo->right != -1)
+    {
+        print_state(philo, "is eating");
+        philo->meals += 1;
+    }
     usleep(philo->app->time_eat * 1000);
     drop_fork(philo);
     set_satisfied(philo);
