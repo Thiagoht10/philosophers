@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 05:30:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/29 19:21:15 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/01 11:16:35 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,12 @@ long    elapsed_since(long last_time)
 void    print_state(t_philo *philo, char *msg)
 {
     long time_now;
-    int stop;
 
-    stop = check_stop(philo->app);
+    time_now = elapsed_since(philo->app->time_start);
+    if(check_stop(philo->app))
+        return ;
     pthread_mutex_lock(&philo->app->m_print);
-    if (!stop)
-    {
-        time_now = elapsed_since(philo->app->time_start);
-        printf("[%ld] %d %s\n", time_now, philo->id, msg);
-    }
+    printf("[%ld] %d %s\n", time_now, philo->id, msg);
     pthread_mutex_unlock(&philo->app->m_print);
 }
 
@@ -43,9 +40,9 @@ void    wait_routine(t_philo *philo)
     while(i < philo->app->num_philo)
     {
         pthread_join(philo[i].thread, NULL);
-        pthread_join(philo[i].thread_die, NULL);
         i++;
     }
+    pthread_join(philo->app->thread_die, NULL);
 }
 
 int    init_mutex(t_app *app)
@@ -71,40 +68,4 @@ int    init_mutex(t_app *app)
         return (FALSE);
     }
     return (TRUE);
-}
-
-void    *die(void *arg)
-{
-    t_philo *p;
-    long    check_time;
-    long    time_now;
-    
-    p = (t_philo *)arg;
-    while (!check_stop(p->app))
-    {
-        pthread_mutex_lock(&p->app->m_meal);
-        check_time = elapsed_since(p->last_meal);
-        pthread_mutex_unlock(&p->app->m_meal);
-        if(check_time >= p->app->time_die)
-        {
-            pthread_mutex_lock(&p->app->m_stop);
-            if(p->app->stop == 1)
-            {
-                pthread_mutex_unlock(&p->app->m_stop);
-                break;
-            }
-            p->app->stop = 1;
-            pthread_mutex_lock(&p->app->m_print);
-            time_now = elapsed_since(p->app->time_start);
-            printf("[%ld] %d %s\n", time_now, p->id, "died");
-            pthread_mutex_unlock(&p->app->m_print);
-            pthread_mutex_unlock(&p->app->m_stop);
-        }
-        if(check_stop(p->app) || check_satisfied(p))
-        {
-            break;
-        }
-    }
-    usleep(200);
-    return (NULL);
 }

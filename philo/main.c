@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:53:19 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/29 04:22:10 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/29 19:44:46 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int main(int argc, char **argv)
         return (-1);
     if(!inits_app(&app, argv, argc))
         return (-1);
-    if(app.num_meals < 1)
+    if(app.num_meals == 0)
         return (-1);
     if(!inits_philo(&app, &philos))
         return (-1);

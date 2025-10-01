@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:41:54 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/29 12:36:48 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/09/30 21:30:06 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,23 +88,4 @@ void precise_sleep(t_app *app, long ms)
         }
         usleep(200);
     }
-}
-
-long    calcule_think(t_philo *ph)
-{
-    long    wait_eat;
-    long    wait_sleep;
-    long    wait_die;
-
-    wait_eat = ph->app->time_eat;
-    wait_sleep = ph->app->time_sleep;
-    wait_die = ph->app->time_die;
-    if (wait_eat < 1 && wait_sleep < 1)
-        return ((wait_die / 2) - 2);
-    else if (wait_eat < 1)
-        return (wait_die - wait_sleep - 2);
-    else if (wait_sleep < 1)
-        return (wait_die - wait_eat - 2);
-    else
-        return (wait_die - wait_eat * 2 - wait_sleep);
 }
