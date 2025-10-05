@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:06:00 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/02 12:39:38 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/02 21:51:05 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ int	inits_app(t_app *app, char **argv, int argc)
 	return (TRUE);
 }
 
-int	inits_philo(t_app *app, t_philo **philos)
+int	inits_philo(t_app *app, t_philo **philo)
 {
 	int	i;
 
-	*philos = malloc(sizeof(t_philo) * app->num_philo);
-	if (!*philos)
+	*philo = malloc(sizeof(t_philo) * app->num_philo);
+	if (!*philo)
 	{
 		printf("Error\nFailed to allocate philosophers\n");
 		return (FALSE);
@@ -77,16 +77,16 @@ int	inits_philo(t_app *app, t_philo **philos)
 	i = 0;
 	while (i < app->num_philo)
 	{
-		(*philos)[i].id = i + 1;
-		(*philos)[i].app = app;
-		(*philos)[i].last_meal = app->time_start;
-		(*philos)[i].meals = 0;
-		(*philos)[i].satisfied = 0;
-		(*philos)[i].left = i;
+		(*philo)[i].id = i + 1;
+		(*philo)[i].app = app;
+		(*philo)[i].last_meal = app->time_start;
+		(*philo)[i].meals = 0;
+		(*philo)[i].satisfied = 0;
+		(*philo)[i].left = i;
 		if (app->num_philo >= 2)
-			(*philos)[i].right = (i + 1) % app->num_philo;
+			(*philo)[i].right = (i + 1) % app->num_philo;
 		else
-			(*philos)[i].right = -1;
+			(*philo)[i].right = -1;
 		i++;
 	}
 	return (TRUE);

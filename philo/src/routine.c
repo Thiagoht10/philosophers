@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:21:05 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/02 12:55:36 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/02 21:52:18 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,27 @@ void	think(t_philo *ph)
 	usleep(time_think * 1000);
 }
 
-void	eat(t_philo *philo)
+void	eat(t_philo *ph)
 {
-	if (philo->meals == 0 && philo->id % 2 == 0)
-		usleep((philo->app->time_eat * 1000) / 2);
-	get_fork(philo);
-	pthread_mutex_lock(&philo->app->m_meal);
-	if (philo->right != -1)
-		philo->last_meal = now_ms();
-	pthread_mutex_unlock(&philo->app->m_meal);
-	if (philo->right != -1)
+	if (ph->meals == 0 && ph->id % 2 == 0)
+		usleep((ph->app->time_eat * 1000) / 2);
+	get_fork(ph);
+	pthread_mutex_lock(&ph->app->m_meal);
+	if (ph->right != -1)
+		ph->last_meal = now_ms();
+	pthread_mutex_unlock(&ph->app->m_meal);
+	if (ph->right != -1)
 	{
-		print_state(philo, "is eating");
-		philo->meals += 1;
+		print_state(ph, "is eating");
+		ph->meals += 1;
 	}
-	usleep(philo->app->time_eat * 1000);
-	drop_fork(philo);
-	set_satisfied(philo);
+	usleep(ph->app->time_eat * 1000);
+	drop_fork(ph);
+	set_satisfied(ph);
 }
 
-void	sleep_philo(t_philo *philo)
+void	sleep_philo(t_philo *ph)
 {
-	print_state(philo, "is sleeping");
-	usleep(philo->app->time_sleep * 1000);
+	print_state(ph, "is sleeping");
+	usleep(ph->app->time_sleep * 1000);
 }

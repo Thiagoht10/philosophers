@@ -5,34 +5,33 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/23 16:53:19 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/02 21:49:48 by thde-sou         ###   ########.fr       */
+/*   Created: 2025/10/04 16:12:42 by thde-sou          #+#    #+#             */
+/*   Updated: 2025/10/05 02:29:53 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
-int	main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-	t_app	app;
-	t_philo	*philo;
-
-	if (argc < 5 || argc > 6)
-	{
-		printf("Error\nWrong number arguments\n");
-		return (-1);
-	}
-	if (!check_inputs(argv))
-		return (-1);
-	if (!inits_app(&app, argv, argc))
-		return (-1);
-	if (app.num_meals == 0)
-		return (-1);
-	if (!inits_philo(&app, &philo))
-		return (-1);
-	start_threads(philo);
-	wait_routine(philo);
-	distroy_mutex(&app);
-	free(philo);
-	return (0);
+    t_app app;
+    t_philo ph;
+    t_data data;
+    
+    check_arguments(argc, argv);
+    inits_app(&app, argc, argv);
+    inits_data(&data, app);
+    inits_philo(&ph, &app, &data);
+    if(!start_philo(&ph, &data))
+    {
+        free(data.pid);
+        exit(EXIT_FAILURE);
+    }
+    wait_children(app, &data);
+    sem_close(data.forks);
+    sem_close(data.print);
+    sem_unlink("/print");
+    sem_unlink("/forks");
+    free(data.pid);
+    return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 05:30:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/01 15:54:13 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/02 21:53:46 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,29 @@ long	elapsed_since(long last_time)
 	return (result);
 }
 
-void	print_state(t_philo *philo, char *msg)
+void	print_state(t_philo *ph, char *msg)
 {
 	long	time_now;
 
-	time_now = elapsed_since(philo->app->time_start);
-	if (check_stop(philo->app))
+	time_now = elapsed_since(ph->app->time_start);
+	if (check_stop(ph->app))
 		return ;
-	pthread_mutex_lock(&philo->app->m_print);
-	printf("[%ld] %d %s\n", time_now, philo->id, msg);
-	pthread_mutex_unlock(&philo->app->m_print);
+	pthread_mutex_lock(&ph->app->m_print);
+	printf("[%ld] %d %s\n", time_now, ph->id, msg);
+	pthread_mutex_unlock(&ph->app->m_print);
 }
 
-void	wait_routine(t_philo *philo)
+void	wait_routine(t_philo *ph)
 {
 	int	i;
 
 	i = 0;
-	while (i < philo->app->num_philo)
+	while (i < ph->app->num_philo)
 	{
-		pthread_join(philo[i].thread, NULL);
+		pthread_join(ph[i].thread, NULL);
 		i++;
 	}
-	pthread_join(philo->app->thread_die, NULL);
+	pthread_join(ph->app->thread_die, NULL);
 }
 
 int	init_mutex(t_app *app)

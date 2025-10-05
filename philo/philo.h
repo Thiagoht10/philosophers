@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:33:57 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/09/30 21:31:08 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/02 21:55:27 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 typedef struct s_app
 {
 	int				num_philo;
-	pthread_t		serve;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	m_print;
 	pthread_mutex_t	m_meal;
@@ -54,21 +53,21 @@ typedef struct s_philo
 
 int					check_inputs(char **argv);
 int					inits_app(t_app *app, char **argv, int argc);
-int					inits_philo(t_app *app, t_philo **philos);
+int					inits_philo(t_app *app, t_philo **philo);
 void				*routine(void *arg);
-void				start_threads(t_philo *philos);
+void				start_threads(t_philo *ph);
 long				now_ms(void);
 int					inits_fork(t_app *app);
 long				elapsed_since(long last_time);
-void				think(t_philo *philo);
-void				print_state(t_philo *philo, char *msg);
-void				wait_routine(t_philo *philo);
+void				think(t_philo *ph);
+void				print_state(t_philo *ph, char *msg);
+void				wait_routine(t_philo *ph);
 void				eat(t_philo *philo);
 void				*die(void *arg);
 int					init_mutex(t_app *app);
-void				get_fork(t_philo *philo);
-void				drop_fork(t_philo *philo);
-void				sleep_philo(t_philo *philo);
+void				get_fork(t_philo *ph);
+void				drop_fork(t_philo *ph);
+void				sleep_philo(t_philo *ph);
 void				distroy_mutex(t_app *app);
 void				precise_sleep(t_app *app, long ms);
 int					check_stop(t_app *app);

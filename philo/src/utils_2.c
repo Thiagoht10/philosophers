@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:41:54 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/01 19:27:41 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/02 21:53:06 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,19 @@ void	get_fork(t_philo *philo)
 	}
 }
 
-void	drop_fork(t_philo *philo)
+void	drop_fork(t_philo *ph)
 {
-	if ((philo->id % 2) == 0)
+	if ((ph->id % 2) == 0)
 	{
-		if (philo->right != -1)
-			pthread_mutex_unlock(&philo->app->forks[philo->right]);
-		pthread_mutex_unlock(&philo->app->forks[philo->left]);
+		if (ph->right != -1)
+			pthread_mutex_unlock(&ph->app->forks[ph->right]);
+		pthread_mutex_unlock(&ph->app->forks[ph->left]);
 	}
 	else
 	{
-		pthread_mutex_unlock(&philo->app->forks[philo->left]);
-		if (philo->right != -1)
-			pthread_mutex_unlock(&philo->app->forks[philo->right]);
+		pthread_mutex_unlock(&ph->app->forks[ph->left]);
+		if (ph->right != -1)
+			pthread_mutex_unlock(&ph->app->forks[ph->right]);
 	}
 }
 
