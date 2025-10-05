@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 15:34:42 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/05 01:16:57 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/05 14:50:24 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 
 typedef struct s_data
 {
-    sem_t *print;
-    sem_t *forks;
+    sem_t   *print;
+    sem_t   *forks;
     pid_t *pid;
     int status;
     int code;
@@ -45,6 +45,7 @@ typedef struct s_app
     long    time_sleep;
     long    time_start;
     int     num_meals;
+    pthread_t thread;
 }           t_app;
 
 typedef struct s_philo
