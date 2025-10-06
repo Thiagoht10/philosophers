@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:06:00 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/02 21:51:05 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/05 15:22:12 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,19 @@ int	check_inputs(char **argv)
 
 int	inits_app(t_app *app, char **argv, int argc)
 {
-	app->num_philo = atoi(argv[1]);
+	app->num_philo = ft_atoi(argv[1]);
 	if (app->num_philo < 1)
 	{
 		printf("Error\nWrong number of philosophers\n");
 		return (FALSE);
 	}
-	app->time_die = atoi(argv[2]);
-	app->time_eat = atoi(argv[3]);
-	app->time_sleep = atoi(argv[4]);
+	app->time_die = ft_atoi(argv[2]);
+	app->time_eat = ft_atoi(argv[3]);
+	app->time_sleep = ft_atoi(argv[4]);
 	app->num_meals = -1;
 	app->stop = 0;
 	if (argc == 6)
-		app->num_meals = atoi(argv[5]);
+		app->num_meals = ft_atoi(argv[5]);
 	app->time_start = now_ms();
 	app->forks = malloc(sizeof(pthread_mutex_t) * app->num_philo);
 	if (!app->forks)

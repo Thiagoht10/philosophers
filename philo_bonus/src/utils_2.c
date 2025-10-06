@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:14:26 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/05 02:56:19 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/05 16:32:52 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void    print_state(t_philo *ph, char *msg)
 {
     long    elapsed;
 
-    elapsed = elapsed_since(ph->app->time_start);
     if(ph->died)
         return;
     sem_wait(ph->data->print);
+    elapsed = elapsed_since(ph->app->time_start);
     printf("[%ld] %d %s\n", elapsed, ph->id, msg);
     sem_post(ph->data->print);
 }

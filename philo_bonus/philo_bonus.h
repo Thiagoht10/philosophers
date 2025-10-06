@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 15:34:42 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/05 14:50:24 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/06 22:38:49 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ typedef struct s_data
 {
     sem_t   *print;
     sem_t   *forks;
+    sem_t   **s_satisfied;
+    sem_t   **s_died;
+    sem_t   **s_meal;
     pid_t *pid;
     int status;
     int code;
@@ -80,5 +83,9 @@ void    ph_exit(t_philo *ph);
 void    wait_children(t_app app, t_data *data);
 int check_exit(t_data *data, t_app app);
 void kill_process(t_data *data, t_app app);
+int str_len(const char *s);
+int ft_itoa_rec(long num, char *buffer, int i);
+char    *ft_itoa(long num, char *buffer);
+char    *strjoin(char *s1, char *s2);
 
 #endif

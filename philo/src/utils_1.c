@@ -6,11 +6,36 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 05:30:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/02 21:53:46 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/05 15:21:35 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+int ft_atoi(char *s)
+{
+    int i;
+    int sign;
+    int result;
+
+    i = 0;
+    sign = 1;
+    result = 0;
+    while(s[i] == 32 || s[i] == 9)
+        i++;
+    if(s[i] == '-' || s[i] == '+')
+    {
+        if(s[i] == '-')
+            sign *= -1;
+        i++;
+    }
+    while(s[i] >= '0' && s[i] <= '9')
+    {
+        result = result * 10 + (s[i] - '0');
+        i++;
+    }
+    return (result * sign);
+}
 
 long	elapsed_since(long last_time)
 {

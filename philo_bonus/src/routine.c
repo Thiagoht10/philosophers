@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 18:47:57 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/05 03:51:01 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:24:32 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ void    ph_eat(t_philo *ph)
         return;
     sem_wait(ph->data->forks);
     print_state(ph, "has a fork");
+    if(ph->app->num_philo == 1)
+    {
+        usleep((ph->app->time_die + 10) * 1000);
+        sem_post(ph->data->forks);
+        return ;
+    }
     sem_wait(ph->data->forks);
     print_state(ph, "has a fork");
     ph->last_meal = now_ms();
