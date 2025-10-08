@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 19:46:33 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 16:48:49 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/08 19:31:50 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_satisfied(t_philo *ph)
 
 void	set_satisfied(t_philo *ph)
 {
-	if (ph->meals == ph->app->num_meals && ph->app->num_meals != -1)
+	if (ph->meals == ph->app->num_meals)
 	{
 		pthread_mutex_lock(&ph->m_satisfied);
 		ph->satisfied = 1;

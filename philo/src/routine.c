@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:21:05 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 18:33:56 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/08 19:56:57 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ void	start_threads(t_philo *ph)
 
 void	*routine(void *arg)
 {
-	t_philo	*p;
+	t_philo	*ph;
 
-	p = (t_philo *)arg;
-	while (!check_stop(p->app))
+	ph = (t_philo *)arg;
+	while (!check_stop(ph->app) && !check_satisfied(ph))
 	{
-		eat(p);
-		sleep_philo(p);
-		think(p);
+		eat(ph);
+		sleep_philo(ph);
+		think(ph);
 	}
 	return (NULL);
 }
@@ -73,8 +73,8 @@ void	eat(t_philo *ph)
 	pthread_mutex_unlock(&ph->m_meal);
 	if (ph->right != -1)
 	{
-		print_state(ph, "is eating");
 		ph->meals += 1;
+		print_state(ph, "is eating");
 	}
 	usleep(ph->app->time_eat * 1000);
 	drop_fork(ph);

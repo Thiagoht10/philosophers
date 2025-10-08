@@ -6,15 +6,20 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 16:30:11 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/07 18:23:21 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/08 20:06:52 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
 
-void	inits_app(t_app *app, int argc, char **argv)
+int	inits_app(t_app *app, int argc, char **argv)
 {
 	app->num_philo = ft_atoi(argv[1]);
+	if (app->num_philo < 1)
+	{
+		printf("Error\nWrong number of philosophers\n");
+		return (FALSE);
+	}
 	app->time_die = ft_atoi(argv[2]);
 	app->time_eat = ft_atoi(argv[3]);
 	app->time_sleep = ft_atoi(argv[4]);
@@ -22,6 +27,7 @@ void	inits_app(t_app *app, int argc, char **argv)
 		app->num_meals = ft_atoi(argv[5]);
 	else
 		app->num_meals = -1;
+	return (TRUE);
 }
 
 void	inits_philo(t_philo *ph, t_app *app, t_data *data)

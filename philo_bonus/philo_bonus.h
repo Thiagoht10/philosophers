@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 15:34:42 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 00:11:21 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/08 20:07:27 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_philo
 void			check_arguments(int argc, char **argv);
 int				ft_atoi(char *s);
 long			now_ms(void);
-void			inits_app(t_app *app, int argc, char **argv);
+int			inits_app(t_app *app, int argc, char **argv);
 void			inits_philo(t_philo *ph, t_app *app, t_data *data);
 void			inits_data(t_data *data, t_app *app);
 pid_t			safe_fork(void);

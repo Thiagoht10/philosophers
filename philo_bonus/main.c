@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 16:12:42 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/07 18:26:13 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/08 20:07:12 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	check_arguments(argc, argv);
-	inits_app(&app, argc, argv);
+	if(!inits_app(&app, argc, argv))
+		return (-1);
 	inits_data(&data, &app);
 	inits_philo(&ph, &app, &data);
+	if (app.num_meals == 0)
+		return (-1);
 	if (!start_philo(&ph, &data))
 	{
 		free(data.pid);
