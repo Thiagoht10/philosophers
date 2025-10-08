@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:06:58 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 18:32:50 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/08 19:27:03 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,9 @@ void	*die(void *arg)
 		}
 		while (i < ph->app->num_philo)
 		{
-			if (!check_last_meal(ph, i))
+			if (!check_last_meal(ph, i) && !check_satisfied(&ph[i]))
 			{
-				if(!check_satisfied(&ph[i]))
-					kill(&ph[i]);
+				kill(&ph[i]);
 				break ;
 			}
 			i++;
