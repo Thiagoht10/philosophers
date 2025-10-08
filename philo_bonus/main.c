@@ -12,26 +12,26 @@
 
 #include "philo_bonus.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    t_app app;
-    t_philo ph;
-    t_data data;
-    
-    check_arguments(argc, argv);
-    inits_app(&app, argc, argv);
-    inits_data(&data, &app);
-    inits_philo(&ph, &app, &data);
-    if(!start_philo(&ph, &data))
-    {
-        free(data.pid);
-        exit(EXIT_FAILURE);
-    }
-    wait_children(app, &data);
-    close_global_sem(&data);
-    close_sem_meal(&data, &ph);
-    close_sem_died(&data, &ph);
-    close_sem_satisfied(&data, &ph);
-    free(data.pid);
-    return (0);
+	t_app	app;
+	t_philo	ph;
+	t_data	data;
+
+	check_arguments(argc, argv);
+	inits_app(&app, argc, argv);
+	inits_data(&data, &app);
+	inits_philo(&ph, &app, &data);
+	if (!start_philo(&ph, &data))
+	{
+		free(data.pid);
+		exit(EXIT_FAILURE);
+	}
+	wait_children(app, &data);
+	close_global_sem(&data);
+	close_sem_meal(&data, &ph);
+	close_sem_died(&data, &ph);
+	close_sem_satisfied(&data, &ph);
+	free(data.pid);
+	return (0);
 }

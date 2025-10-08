@@ -92,7 +92,7 @@ void	precise_sleep(t_app *app, long ms)
 
 int	init_local_mutex(t_philo *ph, int i)
 {
-	int j;
+	int	j;
 	int	k;
 
 	j = 0;
@@ -105,7 +105,7 @@ int	init_local_mutex(t_philo *ph, int i)
 	}
 	if (pthread_mutex_init(&(ph)[i].m_satisfied, NULL) != 0)
 	{
-		while(j < ph->app->num_philo)
+		while (j < ph->app->num_philo)
 			pthread_mutex_destroy(&(ph)[j++].m_meal);
 		while (k < i)
 			pthread_mutex_destroy(&(ph)[k++].m_satisfied);

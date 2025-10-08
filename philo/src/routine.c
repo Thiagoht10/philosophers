@@ -18,10 +18,10 @@ void	start_threads(t_philo *ph)
 
 	i = 0;
 	ph->app->time_start = now_ms();
-	if(ph->app->time_die == 0)
+	if (ph->app->time_die == 0)
 	{
 		print_state(ph, "Died");
-		return;
+		return ;
 	}
 	while (i < ph->app->num_philo)
 	{
@@ -50,8 +50,8 @@ void	think(t_philo *ph)
 	long	time_think;
 	long	time_util;
 
-	if(check_satisfied(ph))
-		return;
+	if (check_satisfied(ph))
+		return ;
 	time_util = ph->app->time_eat + ph->app->time_sleep;
 	time_think = (ph->app->time_die - time_util) / 2;
 	if (time_think < 0)
@@ -63,7 +63,7 @@ void	think(t_philo *ph)
 void	eat(t_philo *ph)
 {
 	if (check_satisfied(ph))
-        return;
+		return ;
 	if (ph->meals == 0 && ph->id % 2 == 0)
 		usleep((ph->app->time_eat * 1000) / 2);
 	get_fork(ph);
@@ -83,8 +83,8 @@ void	eat(t_philo *ph)
 
 void	sleep_philo(t_philo *ph)
 {
-	if(check_satisfied(ph))
-		return;
+	if (check_satisfied(ph))
+		return ;
 	print_state(ph, "is sleeping");
 	usleep(ph->app->time_sleep * 1000);
 }

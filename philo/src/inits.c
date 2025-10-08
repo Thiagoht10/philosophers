@@ -68,7 +68,7 @@ int	inits_philo(t_app *app, t_philo **philo)
 {
 	int	i;
 
-	if(!alloc_philo(app, philo))
+	if (!alloc_philo(app, philo))
 		return (FALSE);
 	i = 0;
 	while (i < app->num_philo)
@@ -83,7 +83,7 @@ int	inits_philo(t_app *app, t_philo **philo)
 			(*philo)[i].right = (i + 1) % app->num_philo;
 		else
 			(*philo)[i].right = -1;
-		if(!init_local_mutex(*philo, i))
+		if (!init_local_mutex(*philo, i))
 			return (FALSE);
 		i++;
 	}
