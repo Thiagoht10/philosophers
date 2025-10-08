@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 05:30:08 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/05 15:21:35 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/07 22:18:41 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ void	print_state(t_philo *ph, char *msg)
 {
 	long	time_now;
 
-	time_now = elapsed_since(ph->app->time_start);
 	if (check_stop(ph->app))
 		return ;
 	pthread_mutex_lock(&ph->app->m_print);
-	printf("[%ld] %d %s\n", time_now, ph->id, msg);
+	time_now = elapsed_since(ph->app->time_start);
+	printf("%ld %d %s\n", time_now, ph->id, msg);
 	pthread_mutex_unlock(&ph->app->m_print);
 }
 
@@ -74,22 +74,9 @@ int	init_mutex(t_app *app)
 {
 	if (pthread_mutex_init(&app->m_print, NULL) != 0)
 		return (FALSE);
-	if (pthread_mutex_init(&app->m_meal, NULL) != 0)
-	{
-		pthread_mutex_destroy(&app->m_print);
-		return (FALSE);
-	}
 	if (pthread_mutex_init(&app->m_stop, NULL) != 0)
 	{
 		pthread_mutex_destroy(&app->m_print);
-		pthread_mutex_destroy(&app->m_meal);
-		return (FALSE);
-	}
-	if (pthread_mutex_init(&app->m_satisfied, NULL) != 0)
-	{
-		pthread_mutex_destroy(&app->m_print);
-		pthread_mutex_destroy(&app->m_meal);
-		pthread_mutex_destroy(&app->m_stop);
 		return (FALSE);
 	}
 	return (TRUE);

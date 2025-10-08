@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 18:47:57 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/05 17:24:32 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/08 01:45:23 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int    start_philo(t_philo *ph, t_data *data)
 
     i = 0;
     id = 0;
+    init_local_semaphore(data, ph);
     while(i < ph->app->num_philo)
     {
         id = i + 1;
@@ -49,7 +50,7 @@ void    routine(t_philo *ph, int id)
     free(ph->data->pid);
     if(pthread_create(&thread, NULL, monitor, ph) != 0)
         error_thread(ph);
-    while(!ph->died && !ph->satisfied)
+    while(!check_died(ph) && !check_satisfied(ph))
     {
         ph_eat(ph);
         ph_sleep(ph);
@@ -61,31 +62,30 @@ void    routine(t_philo *ph, int id)
 
 void    ph_eat(t_philo *ph)
 {
-    if(ph->died || ph->satisfied)
+    if(check_satisfied(ph))
         return;
     sem_wait(ph->data->forks);
-    print_state(ph, "has a fork");
-    if(ph->app->num_philo == 1)
-    {
-        usleep((ph->app->time_die + 10) * 1000);
-        sem_post(ph->data->forks);
-        return ;
-    }
+    one_philo(ph);
     sem_wait(ph->data->forks);
     print_state(ph, "has a fork");
+    print_state(ph, "has a fork");
+    sem_wait(ph->data->s_meal[ph->id - 1]);
     ph->last_meal = now_ms();
+    sem_post(ph->data->s_meal[ph->id - 1]);
     ph->meals += 1;
     print_state(ph, "is eating");
     usleep(ph->app->time_eat * 1000);
     sem_post(ph->data->forks);
     sem_post(ph->data->forks);
+    sem_wait(ph->data->s_satisfied[ph->id - 1]);
     if(ph->meals == ph->app->num_meals && ph->app->num_meals != -1)
         ph->satisfied = TRUE;
+    sem_post(ph->data->s_satisfied[ph->id - 1]);
 }
 
 void    ph_sleep(t_philo *ph)
 {
-    if(ph->died || ph->satisfied)
+    if(check_satisfied(ph))
         return;
     print_state(ph, "is sleeping");
     usleep(ph->app->time_sleep * 1000);
@@ -95,8 +95,8 @@ void    ph_think(t_philo *ph)
 {
     long    time_think;
     long    time_util;
-
-    if(ph->died || ph->satisfied)
+    
+    if(check_satisfied(ph))
         return;
     time_util = ph->app->time_eat + ph->app->time_sleep;
     time_think = (ph->app->time_die - time_util) / 2;

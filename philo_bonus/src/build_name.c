@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 21:04:13 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/06 22:32:56 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/08 00:11:29 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int ft_itoa_rec(long num, char *buffer, int i)
     return (i);
 }
 
-char    *ft_itoa(long num, char *buffer)
+void    ft_itoa(long num, char *buffer)
 {
     int i;
 
@@ -45,29 +45,24 @@ char    *ft_itoa(long num, char *buffer)
     buffer[i] = '\0';
 }
 
-char    *strjoin(char *s1, char *s2)
+void    strjoin(char *s1, char *s2, char *buffer)
 {
-    char    *result;
     int len;
     int i;
     int j;
 
     len = str_len(s1) + str_len(s2) + 1;
-    result = malloc(sizeof(char) * len);
-    if(!result)
-        return (NULL);
     i = 0;
     while (s1[i])
     {
-        result[i] = s1[i];
+        buffer[i] = s1[i];
         i++;
     }
     j = 0;
     while (s2[j])
     {
-        result[j + i] = s2[j];
+        buffer[j + i] = s2[j];
         j++;
     }
-    result[len - 1] = '\0';
-    return (result);
+    buffer[len - 1] = '\0';
 }

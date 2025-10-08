@@ -6,7 +6,7 @@
 #    By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/23 17:27:45 by thde-sou          #+#    #+#              #
-#    Updated: 2025/10/06 22:25:59 by thde-sou         ###   ########.fr        #
+#    Updated: 2025/10/07 17:43:32 by thde-sou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ FLAG_THREAD = -g -O0 -pthread
 NAME = philo_bonus
 
 SRC = main.c src/inits.c src/utils_1.c src/utils_2.c src/routine.c src/exit.c \
-src/monitor.c build_name.c
+src/monitor.c src/build_name.c src/local_semaphore.c src/close_sem.c \
+src/set_local_semaphore.c
 
 OBJ = $(SRC:.c=.o)
 

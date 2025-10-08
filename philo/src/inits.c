@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:06:00 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/05 15:22:12 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/07 23:25:08 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,8 @@ int	inits_philo(t_app *app, t_philo **philo)
 {
 	int	i;
 
-	*philo = malloc(sizeof(t_philo) * app->num_philo);
-	if (!*philo)
-	{
-		printf("Error\nFailed to allocate philosophers\n");
+	if(!alloc_philo(app, philo))
 		return (FALSE);
-	}
 	i = 0;
 	while (i < app->num_philo)
 	{
@@ -87,6 +83,8 @@ int	inits_philo(t_app *app, t_philo **philo)
 			(*philo)[i].right = (i + 1) % app->num_philo;
 		else
 			(*philo)[i].right = -1;
+		if(!init_local_mutex(*philo, i))
+			return (FALSE);
 		i++;
 	}
 	return (TRUE);

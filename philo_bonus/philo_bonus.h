@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 15:34:42 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/06 22:38:49 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/08 00:11:21 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int ft_atoi(char *s);
 long    now_ms(void);
 void    inits_app(t_app *app, int argc, char **argv);
 void    inits_philo(t_philo *ph, t_app *app, t_data *data);
-void    inits_data(t_data *data, t_app app);
+void    inits_data(t_data *data, t_app *app);
 pid_t safe_fork(void);
 void    distroy_pid(int i, t_data *data);
 int    start_philo(t_philo *ph, t_data *data);
@@ -85,7 +85,22 @@ int check_exit(t_data *data, t_app app);
 void kill_process(t_data *data, t_app app);
 int str_len(const char *s);
 int ft_itoa_rec(long num, char *buffer, int i);
-char    *ft_itoa(long num, char *buffer);
-char    *strjoin(char *s1, char *s2);
+void    ft_itoa(long num, char *buffer);
+void    strjoin(char *s1, char *s2, char *buffer);
+void    create_sem_meal(t_data *data, t_app *app);
+void    init_sem_meal(t_data *data, int id);
+void    close_global_sem(t_data *data);
+void    close_sem_meal(t_data *data, t_philo *ph);
+void    create_sem_died(t_data *data, t_app *app);
+void    close_sem_died(t_data *data, t_philo *ph);
+void    create_sem_died(t_data *data, t_app *app);
+void    init_sem_died(t_data *data, int id);
+int    check_died(t_philo *ph);
+void    create_sem_satisfied(t_data *data, t_app *app);
+void    init_sem_satisfied(t_data *data, int id);
+void    close_sem_satisfied(t_data *data, t_philo *ph);
+int check_satisfied(t_philo *ph);
+void    init_local_semaphore(t_data *data, t_philo *ph);
+void    one_philo(t_philo *ph);
 
 #endif

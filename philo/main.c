@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:53:19 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/02 21:49:48 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/07 23:04:17 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char **argv)
 		return (-1);
 	start_threads(philo);
 	wait_routine(philo);
-	distroy_mutex(&app);
+	distroy_mutex(&app, philo);
 	free(philo);
 	return (0);
 }

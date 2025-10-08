@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:41:54 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/02 21:53:06 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/07 23:03:00 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,18 @@ void	drop_fork(t_philo *ph)
 	}
 }
 
-void	distroy_mutex(t_app *app)
+void	distroy_mutex(t_app *app, t_philo *ph)
 {
 	int	i;
 
 	i = 0;
-	pthread_mutex_destroy(&app->m_meal);
 	pthread_mutex_destroy(&app->m_print);
 	pthread_mutex_destroy(&app->m_stop);
-	pthread_mutex_destroy(&app->m_satisfied);
 	while (i < app->num_philo)
 	{
 		pthread_mutex_destroy(&app->forks[i]);
+		pthread_mutex_destroy(&(ph)[i].m_meal);
+		pthread_mutex_destroy(&(ph)[i].m_satisfied);
 		i++;
 	}
 	free(app->forks);
@@ -88,4 +88,28 @@ void	precise_sleep(t_app *app, long ms)
 		}
 		usleep(200);
 	}
+}
+
+int	init_local_mutex(t_philo *ph, int i)
+{
+	int j;
+	int	k;
+
+	j = 0;
+	k = 0;
+	if (pthread_mutex_init(&(ph)[i].m_meal, NULL) != 0)
+	{
+		while (j < i)
+			pthread_mutex_destroy(&(ph)[j++].m_meal);
+		return (FALSE);
+	}
+	if (pthread_mutex_init(&(ph)[i].m_satisfied, NULL) != 0)
+	{
+		while(j < ph->app->num_philo)
+			pthread_mutex_destroy(&(ph)[j++].m_meal);
+		while (k < i)
+			pthread_mutex_destroy(&(ph)[k++].m_satisfied);
+		return (FALSE);
+	}
+	return (TRUE);
 }

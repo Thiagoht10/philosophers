@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 16:12:42 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/05 17:26:12 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/07 18:26:13 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     
     check_arguments(argc, argv);
     inits_app(&app, argc, argv);
-    inits_data(&data, app);
+    inits_data(&data, &app);
     inits_philo(&ph, &app, &data);
     if(!start_philo(&ph, &data))
     {
@@ -28,10 +28,10 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
     wait_children(app, &data);
-    sem_close(data.forks);
-    sem_close(data.print);
-    sem_unlink("/print");
-    sem_unlink("/forks");
+    close_global_sem(&data);
+    close_sem_meal(&data, &ph);
+    close_sem_died(&data, &ph);
+    close_sem_satisfied(&data, &ph);
     free(data.pid);
     return (0);
 }

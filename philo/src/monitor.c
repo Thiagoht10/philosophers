@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:06:58 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/05 15:47:41 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/07 22:41:08 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	all_satisfied(t_philo *ph, t_app *app)
 
 	i = 0;
 	count = 0;
-	pthread_mutex_lock(&app->m_satisfied);
 	while (i < app->num_philo)
 	{
+		pthread_mutex_lock(&(ph)[i].m_satisfied);
 		if (ph[i].satisfied)
 			count++;
+		pthread_mutex_unlock(&(ph)[i].m_satisfied);
 		i++;
 	}
-	pthread_mutex_unlock(&app->m_satisfied);
 	if (count == app->num_philo)
 	{
 		pthread_mutex_lock(&app->m_stop);
@@ -37,13 +37,13 @@ int	all_satisfied(t_philo *ph, t_app *app)
 	return (FALSE);
 }
 
-int	check_last_meal(t_philo *ph)
+int	check_last_meal(t_philo *ph, int i)
 {
 	long	check_time;
 
-	pthread_mutex_lock(&ph->app->m_meal);
-	check_time = elapsed_since(ph->last_meal);
-	pthread_mutex_unlock(&ph->app->m_meal);
+	pthread_mutex_lock(&(ph)[i].m_meal);
+	check_time = elapsed_since(ph[i].last_meal);
+	pthread_mutex_unlock(&(ph)[i].m_meal);
 	if (check_time >= ph->app->time_die)
 		return (FALSE);
 	return (TRUE);
@@ -59,7 +59,7 @@ void	kill(t_philo *ph)
 	usleep(1000);
 	pthread_mutex_lock(&ph->app->m_print);
 	time_now = elapsed_since(ph->app->time_start);
-	printf("[%ld] %d %s\n", time_now, ph->id, "Died");
+	printf("%ld %d %s\n", time_now, ph->id, "Died");
 	pthread_mutex_unlock(&ph->app->m_print);
 }
 
@@ -78,7 +78,7 @@ void	*die(void *arg)
 		}
 		while (i < ph->app->num_philo)
 		{
-			if (!check_last_meal(&ph[i]))
+			if (!check_last_meal(ph, i))
 			{
 				kill(&ph[i]);
 				break ;
