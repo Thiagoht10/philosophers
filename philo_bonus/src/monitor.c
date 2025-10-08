@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:25:00 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 01:30:22 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:33:57 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	*monitor(void *arg)
 	ph = (t_philo *)arg;
 	while (!check_died(ph))
 	{
-		usleep(5000);
 		sem_wait(ph->data->s_meal[ph->id - 1]);
 		last_meal = elapsed_since(ph->last_meal);
 		sem_post(ph->data->s_meal[ph->id - 1]);
@@ -37,6 +36,7 @@ void	*monitor(void *arg)
 		}
 		if (check_satisfied(ph))
 			return (NULL);
+		usleep(5000);
 	}
 	return (NULL);
 }
