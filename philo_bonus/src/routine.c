@@ -48,7 +48,7 @@ void	routine(t_philo *ph, int id)
 	ph->id = id;
 	ph->last_meal = now_ms();
 	free(ph->data->pid);
-	if(ph->app->time_die == 0)
+	if (ph->app->time_die == 0)
 	{
 		ph->last_meal = now_ms() + ph->app->time_die * 2;
 		sem_wait(ph->data->s_died[ph->id - 1]);

@@ -19,7 +19,7 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	check_arguments(argc, argv);
-	if(!inits_app(&app, argc, argv))
+	if (!inits_app(&app, argc, argv))
 		return (-1);
 	inits_data(&data, &app);
 	inits_philo(&ph, &app, &data);

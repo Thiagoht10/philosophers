@@ -66,7 +66,7 @@ typedef struct s_philo
 void			check_arguments(int argc, char **argv);
 int				ft_atoi(char *s);
 long			now_ms(void);
-int			inits_app(t_app *app, int argc, char **argv);
+int				inits_app(t_app *app, int argc, char **argv);
 void			inits_philo(t_philo *ph, t_app *app, t_data *data);
 void			inits_data(t_data *data, t_app *app);
 pid_t			safe_fork(void);
@@ -103,8 +103,8 @@ void			close_sem_satisfied(t_data *data, t_philo *ph);
 int				check_satisfied(t_philo *ph);
 void			init_local_semaphore(t_data *data, t_philo *ph);
 void			one_philo(t_philo *ph);
-void    create_sem_fork(t_data *data, t_app *app);
-void    creat_sem_print(t_data *data);
-void    creat_sem_table(t_data *data, t_app *app);
+void			create_sem_fork(t_data *data, t_app *app);
+void			creat_sem_print(t_data *data);
+void			creat_sem_table(t_data *data, t_app *app);
 
 #endif

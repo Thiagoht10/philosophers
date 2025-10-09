@@ -42,9 +42,9 @@ void	*routine(void *arg)
 		if (ph->not_meal)
 		{
 			if (ph->app->num_philo == 1)
-				break;
+				break ;
 			else
-				continue;
+				continue ;
 		}
 		sleep_philo(ph);
 		think(ph);
@@ -70,11 +70,11 @@ void	eat(t_philo *ph)
 	if (ph->meals == 0 && ph->id % 2 == 0)
 		usleep((ph->app->time_eat * 1000) / 2);
 	get_fork(ph);
-	if(ph->num_forks != 2)
+	if (ph->num_forks != 2)
 	{
 		drop_fork(ph);
 		ph->not_meal = 1;
-		return;
+		return ;
 	}
 	ph->not_meal = 0;
 	pthread_mutex_lock(&ph->m_meal);
