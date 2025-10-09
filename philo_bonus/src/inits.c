@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 16:30:11 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 20:06:52 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/09 02:33:52 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,9 @@ void	inits_data(t_data *data, t_app *app)
 		printf("Error\nAllocation failure in inits\n");
 		exit(EXIT_FAILURE);
 	}
-	sem_unlink("/forks");
-	data->forks = sem_open("/forks", O_CREAT, 0644, app->num_philo);
-	if (data->forks == SEM_FAILED)
-	{
-		printf("Error\nFailure to create the semaphore\n");
-		free(data->pid);
-		exit(EXIT_FAILURE);
-	}
-	sem_unlink("/print");
-	data->print = sem_open("/print", O_CREAT, 0644, 1);
-	if (data->print == SEM_FAILED)
-	{
-		printf("Error\nFailure to create the semaphore\n");
-		free(data->pid);
-		exit(EXIT_FAILURE);
-	}
+	create_sem_fork(data, app);
+	creat_sem_print(data);
+	creat_sem_table(data, app);
 	create_sem_meal(data, app);
 	create_sem_died(data, app);
 	create_sem_satisfied(data, app);

@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 20:41:54 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 18:01:14 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/09 00:38:33 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,23 @@ void	get_fork(t_philo *philo)
 		{
 			pthread_mutex_lock(&philo->app->forks[philo->right]);
 			print_state(philo, "has taken a fork");
+			philo->num_forks += 1;
 		}
-		else
-			precise_sleep(philo->app, philo->app->time_die * 2);
 		pthread_mutex_lock(&philo->app->forks[philo->left]);
 		print_state(philo, "has taken a fork");
+		philo->num_forks += 1;
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->app->forks[philo->left]);
 		print_state(philo, "has taken a fork");
+		philo->num_forks += 1;
 		if (philo->right != -1)
 		{
 			pthread_mutex_lock(&philo->app->forks[philo->right]);
 			print_state(philo, "has taken a fork");
+			philo->num_forks += 1;
 		}
-		else
-			precise_sleep(philo->app, philo->app->time_die * 2);
 	}
 }
 
@@ -45,14 +45,22 @@ void	drop_fork(t_philo *ph)
 	if ((ph->id % 2) == 0)
 	{
 		if (ph->right != -1)
+		{
 			pthread_mutex_unlock(&ph->app->forks[ph->right]);
+			ph->num_forks -= 1;
+		}
 		pthread_mutex_unlock(&ph->app->forks[ph->left]);
+		ph->num_forks -= 1;
 	}
 	else
 	{
 		pthread_mutex_unlock(&ph->app->forks[ph->left]);
+		ph->num_forks -= 1;
 		if (ph->right != -1)
+		{
 			pthread_mutex_unlock(&ph->app->forks[ph->right]);
+			ph->num_forks -= 1;
+		}
 	}
 }
 

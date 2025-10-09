@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:21:05 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 19:56:57 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/09 00:57:04 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	start_threads(t_philo *ph)
 	ph->app->time_start = now_ms();
 	if (ph->app->time_die == 0)
 	{
-		print_state(ph, "Died");
+		print_state(ph, "died");
 		return ;
 	}
 	while (i < ph->app->num_philo)
@@ -39,6 +39,13 @@ void	*routine(void *arg)
 	while (!check_stop(ph->app) && !check_satisfied(ph))
 	{
 		eat(ph);
+		if (ph->not_meal)
+		{
+			if (ph->app->num_philo == 1)
+				break;
+			else
+				continue;
+		}
 		sleep_philo(ph);
 		think(ph);
 	}
@@ -67,15 +74,18 @@ void	eat(t_philo *ph)
 	if (ph->meals == 0 && ph->id % 2 == 0)
 		usleep((ph->app->time_eat * 1000) / 2);
 	get_fork(ph);
-	pthread_mutex_lock(&ph->m_meal);
-	if (ph->right != -1)
-		ph->last_meal = now_ms();
-	pthread_mutex_unlock(&ph->m_meal);
-	if (ph->right != -1)
+	if(ph->num_forks != 2)
 	{
-		ph->meals += 1;
-		print_state(ph, "is eating");
+		drop_fork(ph);
+		ph->not_meal = 1;
+		return;
 	}
+	ph->not_meal = 0;
+	pthread_mutex_lock(&ph->m_meal);
+	ph->last_meal = now_ms();
+	pthread_mutex_unlock(&ph->m_meal);
+	ph->meals += 1;
+	print_state(ph, "is eating");
 	usleep(ph->app->time_eat * 1000);
 	drop_fork(ph);
 	set_satisfied(ph);

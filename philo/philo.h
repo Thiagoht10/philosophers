@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:33:57 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 17:33:41 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/09 00:30:10 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct s_philo
 	int				satisfied;
 	int				right;
 	int				left;
+	int				num_forks;
+	int				not_meal;
 	pthread_t		thread;
 	pthread_mutex_t	m_satisfied;
 	pthread_mutex_t	m_meal;

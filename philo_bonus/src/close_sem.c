@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 17:38:53 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 00:14:40 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/09 02:28:19 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	close_global_sem(t_data *data)
 {
 	sem_close(data->forks);
 	sem_close(data->print);
+	sem_close(data->table);
 	sem_unlink("/print");
 	sem_unlink("/forks");
+	sem_unlink("/table");
 }
 
 void	close_sem_meal(t_data *data, t_philo *ph)

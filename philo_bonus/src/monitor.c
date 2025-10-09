@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:25:00 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 16:33:57 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/08 23:18:04 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	*monitor(void *arg)
 			sem_post(ph->data->s_died[ph->id - 1]);
 			sem_wait(ph->data->print);
 			elapsed_start = elapsed_since(ph->app->time_start);
-			printf("%ld %d %s\n", elapsed_start, ph->id, "Died");
+			printf("%ld %d %s\n", elapsed_start, ph->id, "died");
 			return (NULL);
 		}
 		if (check_satisfied(ph))

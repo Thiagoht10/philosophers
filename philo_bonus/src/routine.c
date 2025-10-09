@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 18:47:57 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 01:45:23 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:04:31 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,15 @@ void	routine(t_philo *ph, int id)
 	pthread_t	thread;
 
 	ph->id = id;
-	ph->last_meal = ph->app->time_start;
+	ph->last_meal = now_ms();
 	free(ph->data->pid);
+	if(ph->app->time_die == 0)
+	{
+		ph->last_meal = now_ms() + ph->app->time_die * 2;
+		sem_wait(ph->data->s_died[ph->id - 1]);
+		ph->died = 1;
+		sem_post(ph->data->s_died[ph->id - 1]);
+	}
 	if (pthread_create(&thread, NULL, monitor, ph) != 0)
 		error_thread(ph);
 	while (!check_died(ph) && !check_satisfied(ph))
@@ -64,6 +71,7 @@ void	ph_eat(t_philo *ph)
 {
 	if (check_satisfied(ph))
 		return ;
+	sem_wait(ph->data->table);
 	sem_wait(ph->data->forks);
 	one_philo(ph);
 	sem_wait(ph->data->forks);
@@ -77,6 +85,7 @@ void	ph_eat(t_philo *ph)
 	usleep(ph->app->time_eat * 1000);
 	sem_post(ph->data->forks);
 	sem_post(ph->data->forks);
+	sem_post(ph->data->table);
 	sem_wait(ph->data->s_satisfied[ph->id - 1]);
 	if (ph->meals == ph->app->num_meals && ph->app->num_meals != -1)
 		ph->satisfied = TRUE;

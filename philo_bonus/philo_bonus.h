@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 15:34:42 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 20:07:27 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/09 02:32:38 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_data
 {
 	sem_t		*print;
 	sem_t		*forks;
+	sem_t		*table;
 	sem_t		**s_satisfied;
 	sem_t		**s_died;
 	sem_t		**s_meal;
@@ -102,5 +103,8 @@ void			close_sem_satisfied(t_data *data, t_philo *ph);
 int				check_satisfied(t_philo *ph);
 void			init_local_semaphore(t_data *data, t_philo *ph);
 void			one_philo(t_philo *ph);
+void    create_sem_fork(t_data *data, t_app *app);
+void    creat_sem_print(t_data *data);
+void    creat_sem_table(t_data *data, t_app *app);
 
 #endif

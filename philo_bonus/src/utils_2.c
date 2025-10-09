@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:14:26 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 01:45:19 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/09 02:42:04 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	one_philo(t_philo *ph)
 	{
 		print_state(ph, "has a fork");
 		usleep((ph->app->time_die + 10) * 1000);
+		sem_post(ph->data->table);
 		sem_post(ph->data->forks);
 		return ;
 	}

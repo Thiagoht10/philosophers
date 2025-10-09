@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:06:00 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/08 17:35:29 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/09 00:30:34 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	inits_philo(t_app *app, t_philo **philo)
 		(*philo)[i].meals = 0;
 		(*philo)[i].satisfied = 0;
 		(*philo)[i].left = i;
+		(*philo)[i].num_forks = 0;
+		(*philo)[i].not_meal = 0;
 		if (app->num_philo >= 2)
 			(*philo)[i].right = (i + 1) % app->num_philo;
 		else
