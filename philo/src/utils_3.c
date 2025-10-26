@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 19:46:33 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/09 16:36:38 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/26 20:37:10 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,20 @@ int	alloc_philo(t_app *app, t_philo **ph)
 		return (FALSE);
 	}
 	return (TRUE);
+}
+
+void	error_thread(t_philo *ph, t_app *app, int n)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_lock(&app->m_stop);
+	app->stop = 1;
+	pthread_mutex_unlock(&app->m_stop);
+	while (i < n)
+	{
+		pthread_join(ph[i].thread, NULL);
+		i++;
+	}
+	distroy_mutex(app, ph);
 }

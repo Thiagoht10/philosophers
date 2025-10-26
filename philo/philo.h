@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:33:57 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/09 00:30:10 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/26 20:34:30 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int					check_inputs(char **argv);
 int					inits_app(t_app *app, char **argv, int argc);
 int					inits_philo(t_app *app, t_philo **philo);
 void				*routine(void *arg);
-void				start_threads(t_philo *ph);
+int					start_threads(t_philo *ph);
 long				now_ms(void);
 int					inits_fork(t_app *app);
 long				elapsed_since(long last_time);
@@ -81,4 +81,5 @@ int					all_satisfied(t_philo *ph, t_app *app);
 int					ft_atoi(char *s);
 int					init_local_mutex(t_philo *ph, int i);
 int					alloc_philo(t_app *app, t_philo **ph);
+void				error_thread(t_philo *ph, t_app *app, int n);
 #endif

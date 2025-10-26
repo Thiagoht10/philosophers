@@ -6,13 +6,13 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:21:05 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/09 16:53:15 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/26 20:34:45 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	start_threads(t_philo *ph)
+int	start_threads(t_philo *ph)
 {
 	int	i;
 
@@ -21,14 +21,23 @@ void	start_threads(t_philo *ph)
 	if (ph->app->time_die == 0)
 	{
 		print_state(ph, "died");
-		return ;
+		return (1);
 	}
 	while (i < ph->app->num_philo)
 	{
-		pthread_create(&ph[i].thread, NULL, routine, &ph[i]);
+		if (pthread_create(&ph[i].thread, NULL, routine, &ph[i]) != 0)
+		{
+			error_thread(ph, ph->app, i);
+			return (FALSE);
+		}
 		i++;
 	}
-	pthread_create(&ph[0].app->thread_die, NULL, die, ph);
+	if (pthread_create(&ph->app->thread_die, NULL, die, ph) != 0)
+	{
+		error_thread(ph, ph->app, i);
+		return (FALSE);
+	}
+	return (TRUE);
 }
 
 void	*routine(void *arg)

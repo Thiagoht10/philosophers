@@ -6,7 +6,7 @@
 /*   By: thde-sou <thde-sou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:53:19 by thde-sou          #+#    #+#             */
-/*   Updated: 2025/10/09 01:13:27 by thde-sou         ###   ########.fr       */
+/*   Updated: 2025/10/26 20:36:37 by thde-sou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ int	main(int argc, char **argv)
 		return (0);
 	if (!inits_philo(&app, &philo))
 		return (-1);
-	start_threads(philo);
+	if (!start_threads(philo))
+	{
+		free(philo);
+		return (-1);
+	}
 	wait_routine(philo);
 	distroy_mutex(&app, philo);
 	free(philo);
